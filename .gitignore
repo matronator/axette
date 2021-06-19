@@ -1,0 +1,10 @@
+.idea
+.vscode
+bower_components
+node_modules
+node_modules/
+/vendor
+vendor/
+.env
+.DS_Store
+new-package.json
