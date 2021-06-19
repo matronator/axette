@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "lib": ["ESNext", "DOM"],
+    "module": "commonjs",
+    "declaration": true,
+    "outDir": "./lib",
+    "strict": true,
+    "strictPropertyInitialization": false,
+    "strictBindCallApply": false,
+    "sourceMap": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "declarationDir": "./types"
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "**/__tests__/*"]
+}

@@ -23,24 +23,38 @@ export class Hooks {
     }
 
     addHook(event: keyof Hooks, hook: Hook): Hook|null {
-        if (this[event] instanceof Array) {
-            Array.prototype.push.apply(this[event], hook)
-            return hook
-        } else {
-            return null
+        switch(event) {
+            case `onAjax`:
+                this.onAjax.push(hook)
+                return hook
+            case `onInit`:
+                this.onInit.push(hook)
+                return hook
+            default:
+                if (this[event] instanceof Array) {
+                    Array.prototype.push.call(this[event], hook)
+                    return hook
+                }
+                return null
         }
     }
 }
 
-export const hooks = new Hooks
+const hooks = new Hooks
 
-export function init(ajaxClass: string = `ajax`) {
+const axette = { init, run: onAjax, hooks: hooks, on: onHook, onInit: onInitHook, onAjax: onAjaxHook, fixURL: noFlashURL }
+
+/**
+ * Registers AJAX handlers
+ * @param ajaxClass CSS class to be used as selector for links and forms to be handled by AJAX
+ */
+function init(ajaxClass: string = `ajax`) {
     const links = document.querySelectorAll(`a.${ajaxClass}`)
     if (links) {
         links.forEach((link: Element) => {
             link.addEventListener(`click`, (e: Event) => {
                 e.preventDefault()
-                onAjax((e.target as HTMLAnchorElement).href)
+                axette.run((e.target as HTMLAnchorElement).href)
             })
         })
     }
@@ -54,24 +68,31 @@ export function init(ajaxClass: string = `ajax`) {
                     const formData = new FormData(form)
                     const params = (new URLSearchParams(String(formData))).toString()
                     if (form.method.toLowerCase() === `post`) {
-                        onAjax(form.action, params, `application/x-www-form-urlencoded`)
+                        axette.run(form.action, params, `application/x-www-form-urlencoded`)
                         .catch(err => console.error(err))
                     } else {
-                        onAjax(`${form.action}?${params}`)
+                        axette.run(`${form.action}?${params}`)
                         .catch(err => console.error(err))
                     }
                 })
             }
         })
     }
-    hooks.onInit.forEach((hook: Hook) => {
+
+    axette.hooks.onInit.forEach((hook: Hook) => {
         if (hook.fn instanceof Function) {
             hook.fn(...hook.args)
         }
     })
 }
 
-export async function onAjax(link: string, data: BodyInit|null = null, contentType = `application/json`) {
+/**
+ * Handles Nette response by updating snippets and/or redirecting if necessary
+ * @param link Target URL
+ * @param data Request body
+ * @param contentType `Content-Type` header
+ */
+async function onAjax(link: string, data: BodyInit|null = null, contentType = `application/json`) {
     const response = await fetch(link, {
         method: data ? `POST` : `GET`,
         headers: {
@@ -88,19 +109,20 @@ export async function onAjax(link: string, data: BodyInit|null = null, contentTy
         const elem = document.getElementById(id)
         if (elem) elem.innerHTML = html as string
     })
-    init()
 
-    hooks.onAjax.forEach(hook => {
+    axette.hooks.onAjax.forEach(hook => {
         if (hook.fn instanceof Function) {
             hook.fn(...hook.args)
         }
     })
+
+    axette.init()
 }
 
 /**
 * Removes `?_fid=xxxx` from the URL that Nette adds there whenever it shows a FlashMessage.
 */
-export function noFlashURL() {
+function noFlashURL() {
     let l = window.location.toString()
     let fid = l.indexOf(`_fid=`)
     if(fid !== -1) {
@@ -112,18 +134,23 @@ export function noFlashURL() {
     }
 }
 
-export function onAjaxHook(callback: Function, ...args: any[]) {
-    onHook(`onAjax`, callback, args)
+function onAjaxHook(callback: Function, ...args: any[]) {
+    axette.on(`onAjax`, callback, args)
 }
 
-export function onInitHook(callback: Function, ...args: any[]) {
-    onHook(`onInit`, callback, args)
+function onInitHook(callback: Function, ...args: any[]) {
+    axette.on(`onInit`, callback, args)
 }
 
-export function onHook(event: keyof Hooks, callback: Function, ...args: any[]): Hook|null {
-    return hooks.addHook(event, { fn: callback, args: args })
+/**
+ * Add new callback to the specified event to be run every time that event is triggered
+ * @param event Name of the event to add hook to (`onInit`, `onAjax`, ...)
+ * @param callback Function to call
+ * @param args Function arguments
+ * @returns Hook or null if event name is invalid
+ */
+function onHook(event: keyof Hooks, callback: Function, ...args: any[]): Hook|null {
+    return axette.hooks.addHook(event, { fn: callback, args: args })
 }
-
-const axette = { init, onAjax, hooks, onHook, noFlashURL }
 
 export default axette

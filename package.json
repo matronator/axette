@@ -1,19 +1,26 @@
 {
   "name": "axette",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Very simple and lightweight AJAX implementation for Nette",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
     "test": "jest --config jestconfig.json",
-    "build": "tsc",
+    "tsc": "tsc",
+    "build-old": "NODE_ENV=production npm run clean && npm run tsc && babel --extensions \".ts,.tsx\" src --out-dir build",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "eslint",
     "prepare": "npm run build",
     "prepublishOnly": "npm test && npm run lint",
     "preversion": "npm run lint",
     "version": "npm run format && git add -A src",
-    "postversion" : "git push && git push --tags"
+    "postversion": "git push && git push --tags",
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "npm run type-check -- --watch",
+    "build": "npm run build:types && npm run build:js",
+    "build:types": "tsc --emitDeclarationOnly",
+    "build:js": "babel src --out-dir lib --extensions \".ts,.tsx\" --source-maps inline",
+    "start": "babel-node -x \".ts\" src/index.ts"
   },
   "files": [
     "lib/**/*"
@@ -22,7 +29,10 @@
     "type": "git",
     "url": "git+https://github.com/matronator/axette.git"
   },
-  "keywords": ["nette", "ajax"],
+  "keywords": [
+    "nette",
+    "ajax"
+  ],
   "author": "Matronator",
   "license": "MIT",
   "bugs": {
@@ -30,6 +40,12 @@
   },
   "homepage": "https://github.com/matronator/axette#readme",
   "devDependencies": {
+    "@babel/cli": "^7.14.5",
+    "@babel/core": "^7.14.6",
+    "@babel/node": "^7.14.5",
+    "@babel/plugin-proposal-class-properties": "^7.14.5",
+    "@babel/preset-env": "^7.14.5",
+    "@babel/preset-typescript": "^7.14.5",
     "@types/jest": "^26.0.23",
     "eslint": "^7.29.0",
     "eslint-config-prettier": "^8.3.0",
