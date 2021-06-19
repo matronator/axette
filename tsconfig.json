@@ -5,7 +5,9 @@
     "module": "commonjs",
     "declaration": true,
     "outDir": "./lib",
-    "strict": true
+    "strict": true,
+    "strictPropertyInitialization": false,
+    "strictBindCallApply": false
   },
   "include": ["src"],
   "exclude": ["node_modules", "**/__tests__/*"]

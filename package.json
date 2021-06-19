@@ -8,7 +8,7 @@
     "test": "jest --config jestconfig.json",
     "build": "tsc",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
-    "lint": "eslint -p tsconfig.json",
+    "lint": "eslint",
     "prepare": "npm run build",
     "prepublishOnly": "npm test && npm run lint",
     "preversion": "npm run lint",
@@ -24,7 +24,7 @@
   },
   "keywords": ["nette", "ajax"],
   "author": "Matronator",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/matronator/axette/issues"
   },

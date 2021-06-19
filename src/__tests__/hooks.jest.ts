@@ -5,10 +5,10 @@
  * https://opensource.org/licenses/MIT
  */
 
-import { onHook } from '../index'
+import axette from '../index'
 
 const callback = () => { return null }
 
 test('addHook', () => {
-  expect(onHook('onAjax', callback)).toStrictEqual({fn: callback, args: []})
+  expect(axette.hooks.addAjaxHook({fn: callback, args: []})).toStrictEqual({ fn: callback, args: [] })
 })
