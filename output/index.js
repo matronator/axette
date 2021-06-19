@@ -1,7 +1,3 @@
-'use strict';
-
-Object.defineProperty(exports, '__esModule', { value: true });
-
 function ownKeys(object, enumerableOnly) {
   var keys = Object.keys(object);
 
@@ -433,5 +429,5 @@ function onHook(event, callback) {
   });
 }
 
-exports.Hooks = Hooks;
-exports.default = axette;
+export default axette;
+export { Hooks };
