@@ -1,13 +1,13 @@
 {
   "name": "axette",
-  "version": "1.1.1",
+  "version": "1.1.3",
   "description": "Very simple and lightweight AJAX implementation for Nette",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
     "test": "jest --config jestconfig.json",
     "tsc": "tsc",
-    "build-old": "NODE_ENV=production npm run clean && npm run tsc && babel --extensions \".ts,.tsx\" src --out-dir build",
+    "build-old": "NODE_ENV=production npm run tsc && babel --extensions \".ts,.tsx\" src --out-dir build",
     "format": "prettier --write \"src/**/*.ts\" \"src/**/*.js\"",
     "lint": "eslint",
     "prepare": "npm run build",
@@ -18,13 +18,11 @@
     "type-check": "tsc --noEmit",
     "type-check:watch": "npm run type-check --watch",
     "start": "babel-node -x \".ts\" src/index.ts",
-    "build": "rollup --config"
+    "rollup": "rollup --config",
+    "build": "tsc"
   },
   "files": [
-    "lib/**/*",
-    "cjs/**/*",
-    "output/**/*",
-    "dist/**/*"
+    "lib/**/*"
   ],
   "repository": {
     "type": "git",
