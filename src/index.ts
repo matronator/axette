@@ -103,9 +103,13 @@ export function onInitHook(callback: Function, ...args: any[]) {
   onHook(`onInit`, callback, args)
 }
 
-export function onHook(event: keyof Hooks, callback: Function, ...args: any[]) {
+export function onHook(event: keyof Hooks, callback: Function, ...args: any[]): Hook|null {
   if ((hooks[event] as Array<Hook>) instanceof Array) {
-      hooks[event].push({ fn: callback, args: args })
+      const hook = { fn: callback, args: args }
+      hooks[event].push(hook)
+      return hook
+  } else {
+      return null
   }
 }
 
