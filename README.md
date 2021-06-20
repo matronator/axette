@@ -127,6 +127,10 @@ Nette by default appends `?_fid=XXXX` to the URLs if you call the `flashMessage(
 axette.fixURL()
 ```
 
+## Credits
+
+Huge thanks to [Matouš Trča](https://github.com/blackhexagon) from [@Visualio](https://github.com/visualio) who wrote the core logic for handling the HTTP response from Nette.
+
 ## License
 
 MIT License
@@ -150,4 +154,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
