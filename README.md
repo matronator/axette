@@ -1,6 +1,6 @@
-# Axette - AJAX for Nette
+# Axette
 
-Very simple and lightweight AJAX implementation for [Nette](https://nette.org)
+Very simple and lightweight AJAX implementation for [Nette](https://nette.org). Axette = AJAX for Nette!
 
 ## Install
 
