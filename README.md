@@ -1,3 +1,12 @@
+![good times@2x](https://user-images.githubusercontent.com/5470780/122680091-f30b7200-d1ed-11eb-907c-3fe27ad3fd8e.png)
+
+![npm](https://img.shields.io/npm/v/axette)
+![GitHub Repo stars](https://img.shields.io/github/stars/matronator/axette)
+![Snyk Vulnerabilities for npm package version](https://img.shields.io/snyk/vulnerabilities/npm/axette)
+![npm](https://img.shields.io/npm/dw/axette)
+![NPM](https://img.shields.io/npm/l/axette)
+![npm dev dependency version](https://img.shields.io/npm/dependency-version/axette/dev/typescript)
+
 # Axette
 
 Very simple and lightweight AJAX implementation for [Nette](https://nette.org). Axette = AJAX for Nette!
