@@ -1,4 +1,4 @@
-# Axette
+# Axette - AJAX for Nette
 
 Very simple and lightweight AJAX implementation for [Nette](https://nette.org)
 
