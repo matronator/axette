@@ -2,6 +2,17 @@
 
 Very simple and lightweight AJAX implementation for [Nette](https://nette.org). Axette = AJAX for Nette!
 
+### Features
+
+- No dependency required (NO jQuery!)
+- Supports links and forms (`<a>` and `<form>` tags) to be handled by AJAX
+- Fast snippet updating
+- Handles snippet updates (`$this->redrawControl()`) as well as redirects (`$this->redirect()`)
+- Simple to use
+  - Just import it, call `axette.init()` and you're done!
+- Get rid of `?_fid=6ge7` in the URL when using Flash Messages
+- Attach custom callbacks to `onAjax` event
+
 ## Install
 
 ### With npm:
