@@ -24,8 +24,13 @@
   "files": [
     "lib/**/*"
   ],
-  "maintainers": ["Matronator"],
-  "contributors": ["Matronator", "Matouš Trča"],
+  "maintainers": [
+    "Matronator"
+  ],
+  "contributors": [
+    "Matronator",
+    "Matouš Trča"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/matronator/axette.git"
@@ -60,5 +65,10 @@
     "rollup-plugin-terser": "^7.0.2",
     "ts-jest": "^27.0.3",
     "typescript": "^4.3.3"
+  },
+  "dependencies": {
+    "deamdify": "^0.3.0",
+    "deglobalify": "^0.2.0",
+    "es6ify": "^1.6.0"
   }
 }

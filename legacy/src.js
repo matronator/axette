@@ -1,31 +1,11 @@
-(function (root, factory) {
+/**
+* Copyright (c) 2021 Matronator
+*
+* This software is released under the MIT License.
+* https://opensource.org/licenses/MIT
+*/
 
-  'use strict';
-
-  if (typeof define === 'function' && define.amd) {
-    // AMD. Register as an anonymous module.
-    define([], function () {
-      return (root.axette = factory());
-    });
-  } else if (typeof exports === 'object') {
-    // Node. Does not work with strict CommonJS, but
-    // only CommonJS-like enviroments that support module.exports,
-    // like Node.
-    module.exports = factory();
-  } else {
-    // Browser globals
-    root.axette = factory();
-  }
-
-}(this, function () {
-// UMD Definition above, do not remove this line
-
-// To get to know more about the Universal Module Definition
-// visit: https://github.com/umdjs/umd
-
-  'use strict';
-
-  if (!Object.entries) {
+if (!Object.entries) {
     Object.entries = function( obj ){
         var ownProps = Object.keys( obj ),
         i = ownProps.length,
@@ -35,9 +15,9 @@
 
         return resArray;
     };
-  }
+}
 
-  var hooks = {
+var hooks = {
     onInit: [],
     onAjax: [],
     addInitHook: function(hook) {
@@ -64,13 +44,13 @@
             return null
         }
     },
-  }
+}
 
-  /**
-  * Registers AJAX handlers
-  * @param ajaxClass CSS class to be used as selector for links and forms to be handled by AJAX
-  */
-  function init(ajaxClass) {
+/**
+* Registers AJAX handlers
+* @param ajaxClass CSS class to be used as selector for links and forms to be handled by AJAX
+*/
+function init(ajaxClass) {
     if (ajaxClass === undefined) ajaxClass = 'ajax'
     var links = document.querySelectorAll('a.' + String(ajaxClass))
     if (links) {
@@ -107,15 +87,15 @@
             hook.fn(...hook.args)
         }
     })
-  }
+}
 
-  /**
-  * Handles Nette response by updating snippets and/or redirecting if necessary
-  * @param link Target URL
-  * @param data Request body
-  * @param contentType 'Content-Type' header
-  */
-  async function onAjax(link, data, contentType) {
+/**
+* Handles Nette response by updating snippets and/or redirecting if necessary
+* @param link Target URL
+* @param data Request body
+* @param contentType 'Content-Type' header
+*/
+async function onAjax(link, data, contentType) {
     if (data === undefined) data = null
     if (contentType === undefined) contentType = 'application/json'
 
@@ -145,12 +125,12 @@
     })
 
     axette.init()
-  }
+}
 
-  /**
-  * Removes '?_fid=xxxx' from the URL that Nette adds there whenever it shows a FlashMessage.
-  */
-  function noFlashURL() {
+/**
+* Removes '?_fid=xxxx' from the URL that Nette adds there whenever it shows a FlashMessage.
+*/
+function noFlashURL() {
     var l = window.location.toString()
     var fid = l.indexOf('_fid=')
     if(fid !== -1) {
@@ -160,28 +140,28 @@
         }
         window.history.replaceState('', document.title, uri)
     }
-  }
+}
 
-  function onAjaxHook(callback, ...args) {
+function onAjaxHook(callback, ...args) {
     axette.on('onAjax', callback, ...args)
-  }
+}
 
-  function onInitHook(callback, ...args) {
+function onInitHook(callback, ...args) {
     axette.on('onInit', callback, ...args)
-  }
+}
 
-  /**
-  * Add new callback to the specified event to be run every time that event is triggered
-  * @param event Name of the event to add hook to ('onInit', 'onAjax', ...)
-  * @param callback Function to call
-  * @param args Function arguments
-  * @returns Hook or null if event name is invalid
-  */
-  function onHook(event, callback, ...args) {
+/**
+* Add new callback to the specified event to be run every time that event is triggered
+* @param event Name of the event to add hook to ('onInit', 'onAjax', ...)
+* @param callback Function to call
+* @param args Function arguments
+* @returns Hook or null if event name is invalid
+*/
+function onHook(event, callback, ...args) {
     return axette.hooks.addHook(event, { fn: callback, args: args })
-  }
+}
 
-  var axette = {
+var axette = {
     init: init,
     run: onAjax,
     hooks: hooks,
@@ -189,8 +169,4 @@
     onInit: onInitHook,
     onAjax: onAjaxHook,
     fixURL: noFlashURL
-  }
-
-  return axette;
-
-}));
+}

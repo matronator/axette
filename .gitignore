@@ -8,3 +8,4 @@ vendor/
 .env
 .DS_Store
 new-package.json
+garbage/
