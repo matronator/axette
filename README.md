@@ -9,7 +9,25 @@
 
 # Axette
 
+https://www.npmjs.com/package/axette
+
 Very simple and lightweight AJAX implementation for [Nette](https://nette.org). Axette = AJAX for Nette!
+
+## Table of Contents
+
+* [Introduction](#axette)
+  * [Features](#features)
+* [Installation](#installation)
+  * [With npm (recommended)](#with-npm-recommended)
+  * [With yarn (recommended)](#with-yarn-recommended)
+  * [With `<script>` tag](#with-script-tag)
+  * [Fetch polyfill](#fetch-polyfill)
+* [Usage](#usage)
+  * [Custom CSS class](#custom-css-class)
+  * [Custom event listeners](#custom-event-listeners)
+  * [Remove `?_fid=XXXX` from URLs](#remove-?_fid=xxxx-from-urls)
+* [Credits](#credits)
+* [License](#license)
 
 ### Features
 
@@ -22,25 +40,71 @@ Very simple and lightweight AJAX implementation for [Nette](https://nette.org). 
 - Get rid of `?_fid=6ge7` in the URL when using Flash Messages
 - Attach custom callbacks to `onAjax` event
 
-## Install
+## Installation
 
-https://www.npmjs.com/package/axette
-
-### With npm:
+### With npm (recommended):
 
 ```
 npm install axette
 ```
 
-### With yarn:
+### With yarn (recommended):
 
 ```
 yarn add axette
 ```
 
-### With `<script>` tag / via CDN:
+### With `<script>` tag:
 
-Soon
+Download the [latest release](https://github.com/matronator/axette/releases/latest), move `axette.js` or `axette.min.js` somewhere to your project and include it in your HTML or Latte file via a `<script>` tag.
+
+```html
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Axette - AJAX for Nette!</title>
+    </head>
+    <body>
+        ...
+
+        <!-- Minified version (recommended for production) -->
+        <script src="./dist/axette.min.js"></script>
+        OR
+        <!-- Un-minified version (recommended for development) -->
+        <script src="./dist/axette.js"></script>
+
+        <!-- Your other scripts here... -->
+    </body>
+</html>
+```
+
+### Fetch polyfill
+
+If you're not using any transpiler or bundler (just importing `<script>` tags directly to your page) and want maximum browser compatibility, it's recommended to include a polyfill for the ES6 `fetch()` function as well.
+
+You will find it along with the rest of the files either in the `dist/` folder or when downloading from [Releases](https://github.com/matronator/axette/releases).
+
+```html
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Axette with fetch polyfill</title>
+    </head>
+    <body>
+        ...
+
+        <!-- Optional fetch polyfill -->
+        <script src="./dist/fetch.umd.js"></script>
+
+        <!-- Axette -->
+        <script src="./dist/axette.min.js"></script>
+
+        <!-- Your other scripts here... -->
+    </body>
+</html>
+```
+
+*Credits to GitHub* - https://github.com/github/fetch
 
 ## Usage
 
@@ -59,6 +123,8 @@ axette.init()
 ```
 
 And that's it! The `.init()` method handles everything.
+
+### Custom CSS class
 
 If you'd like to use some other class for your links, you just pass the name of the class as a parameter in the `.init()`. So if for instance you want your AJAX links to have `custom-class` instead of `ajax`, then you'd do it like so:
 

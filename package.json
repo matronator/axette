@@ -1,6 +1,6 @@
 {
   "name": "axette",
-  "version": "1.1.4",
+  "version": "1.1.5",
   "description": "Very simple and lightweight AJAX implementation for Nette",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -22,7 +22,8 @@
     "rollup": "rollup --config"
   },
   "files": [
-    "lib/**/*"
+    "lib/**/*",
+    "dist/**/*"
   ],
   "maintainers": [
     "Matronator"
