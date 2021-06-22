@@ -1,4 +1,4 @@
-![good times@2x](https://user-images.githubusercontent.com/5470780/122680091-f30b7200-d1ed-11eb-907c-3fe27ad3fd8e.png)
+![vermin vibes@2x](https://user-images.githubusercontent.com/5470780/122844829-ca28d100-d302-11eb-870f-050666075034.png)
 
 ![npm](https://img.shields.io/npm/v/axette)
 ![GitHub Repo stars](https://img.shields.io/github/stars/matronator/axette)
@@ -25,7 +25,7 @@ Very simple and lightweight AJAX implementation for [Nette](https://nette.org). 
 * [Usage](#usage)
   * [Custom CSS class](#custom-css-class)
   * [Custom event listeners](#custom-event-listeners)
-  * [Remove `?_fid=XXXX` from URLs](#remove-?_fid=xxxx-from-urls)
+  * [Remove `?_fid=XXXX` from URLs](#remove-_fidxxxx-from-urls)
 * [Credits](#credits)
 * [License](#license)
 
@@ -72,6 +72,9 @@ Download the [latest release](https://github.com/matronator/axette/releases/late
         OR
         <!-- Un-minified version (recommended for development) -->
         <script src="./dist/axette.js"></script>
+        OR
+        <!-- Via CDN -->
+        <script src="https://unpkg.com/axette@latest/dist/axette.min.js"></script>
 
         <!-- Your other scripts here... -->
     </body>
