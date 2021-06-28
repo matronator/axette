@@ -1,6 +1,6 @@
 {
   "name": "axette",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "description": "Very simple and lightweight AJAX implementation for Nette",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -66,10 +66,5 @@
     "rollup-plugin-terser": "^7.0.2",
     "ts-jest": "^27.0.3",
     "typescript": "^4.3.3"
-  },
-  "dependencies": {
-    "deamdify": "^0.3.0",
-    "deglobalify": "^0.2.0",
-    "es6ify": "^1.6.0"
   }
 }
