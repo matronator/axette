@@ -87,16 +87,7 @@
         forms.forEach(function(form) {
             if (form instanceof HTMLFormElement) {
                 form.addEventListener('submit', function(e) {
-                    e.preventDefault()
-                    var formData = new FormData(form)
-                    var params = (new URLSearchParams(String(formData))).toString()
-                    if (form.method.toLowerCase() === 'post') {
-                        axette.run(form.action, params, 'application/x-www-form-urlencoded')
-                            .catch(function(err) { console.error(err) })
-                    } else {
-                        axette.run(String(form.action) + String(params))
-                            .catch(function(err) { console.error(err) })
-                    }
+                    formSubmitted(e, form)
                 })
             }
         })
@@ -109,23 +100,51 @@
     })
   }
 
+  async function formSubmitted(e, form) {
+      e.preventDefault()
+      var body = new FormData(form)
+      if (form.method.toLowerCase() === 'post') {
+          axette.run(form.action, body, 'application/form-multipart', form, 'POST')
+              .catch(function(err) { console.error(err) })
+      } else {
+          const formData = new FormData(form)
+          const params = (new URLSearchParams(String(formData))).toString()
+          axette.run(String(form.action) + '?' + String(params))
+              .catch(function(err) { console.error(err) })
+      }
+
+      form.reset()
+  }
+
   /**
   * Handles Nette response by updating snippets and/or redirecting if necessary
-  * @param link Target URL
-  * @param data Request body
-  * @param contentType 'Content-Type' header
+  * @param link (string) Target URL
+  * @param requestBody (any) Request body
+  * @param contentType (string) `Content-Type` header (default: `application/json`)
+  * @param element (Element) The element that sent the event
+  * @param method (string) HTTP method (default: `POST`)
   */
-  async function onAjax(link, data, contentType) {
+  async function onAjax(link, data, contentType, element, method) {
     if (data === undefined) data = null
     if (contentType === undefined) contentType = 'application/json'
+    if (element === undefined) element = null
+    if (method === undefined) method = 'POST'
+
+    var formParent
+    if (element) {
+      formParent = element.closest("form[data-ajax-parent]")
+    } else {
+      formParent = null
+    }
+
+    if (formParent) {
+      method = "POST"
+    }
 
     var response = await fetch(link, {
-        method: data ? 'POST' : 'GET',
-        headers: {
-            'X-Requested-With': 'XMLHttpRequest',
-            ...(data && { 'Content-Type': contentType }),
-        },
-        ...(data && { body: data })
+        method: method,
+        headers: { "X-Requested-With": "XMLHttpRequest" },
+        body: requestBody
     })
     var res = await response.json()
     var snippets = (res.snippets !== null && res.snippets !== undefined) ? res.snippets : []

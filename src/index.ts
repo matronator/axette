@@ -25,17 +25,17 @@ export class Hooks {
     addHook(event: keyof Hooks, hook: Hook): Hook|null {
         switch(event) {
             case `onAjax`:
-                this.onAjax.push(hook)
-                return hook
+            this.onAjax.push(hook)
+            return hook
             case `onInit`:
-                this.onInit.push(hook)
-                return hook
+            this.onInit.push(hook)
+            return hook
             default:
-                if (this[event] instanceof Array) {
-                    Array.prototype.push.call(this[event], hook)
-                    return hook
-                }
-                return null
+            if (this[event] instanceof Array) {
+                Array.prototype.push.call(this[event], hook)
+                return hook
+            }
+            return null
         }
     }
 }
@@ -44,10 +44,57 @@ const hooks = new Hooks
 
 const axette = { init, run: onAjax, hooks: hooks, on: onHook, onInit: onInitHook, onAjax: onAjaxHook, fixURL: noFlashURL }
 
+// function initNetteAjax(documentOrElement = document) {
+//     ;[...documentOrElement.querySelectorAll(".ajax, [data-ajax]")].forEach(
+//         (element) => {
+//             if (element instanceof HTMLFormElement) {
+//                 element.onsubmit = async (e) => {
+//                     e.preventDefault()
+//                     const formEntriesModified = await Promise.all([...new FormData(element).entries()].map(formEntryWithoutBase64))
+//                     const body = new FormData()
+//                     for (const [key, value] of formEntriesModified) {
+//                         body.append(key, value)
+//                     }
+//                     await window.requestSnippets({
+//                         endpoint: element.action,
+//                         method: "POST",
+//                         body,
+//                         element,
+//                     })
+//                     element.reset()
+//                 }
+//             }
+//                 if (element instanceof HTMLAnchorElement) {
+//                     element.onclick = async (e) => {
+//                         e.preventDefault()
+//                         await window.requestSnippets({
+//                             endpoint: element.href,
+//                             method: "GET",
+//                             element,
+//                         })
+//                     }
+//                 }
+//                 if (
+//                     element instanceof HTMLButtonElement ||
+//                     (element instanceof HTMLInputElement && element.type === "button")
+//                     ) {
+//                         element.onclick = async (e) => {
+//                             e.preventDefault()
+//                             await window.requestSnippets({
+//                                 endpoint: element.dataset.ajax,
+//                                 method: "GET",
+//                                 element,
+//                             })
+//                         }
+//                     }
+//                 }
+//                 )
+//             }
+
 /**
- * Registers AJAX handlers
- * @param ajaxClass CSS class to be used as selector for links and forms to be handled by AJAX
- */
+* Registers AJAX handlers
+* @param ajaxClass CSS class to be used as selector for links and forms to be handled by AJAX
+*/
 function init(ajaxClass: string = `ajax`) {
     const links = document.querySelectorAll(`a.${ajaxClass}`)
     if (links) {
@@ -63,17 +110,20 @@ function init(ajaxClass: string = `ajax`) {
     if (forms) {
         forms.forEach(form => {
             if (form instanceof HTMLFormElement) {
-                form.addEventListener(`submit`, e => {
+                form.addEventListener(`submit`, async (e) => {
                     e.preventDefault()
-                    const formData = new FormData(form)
-                    const params = (new URLSearchParams(String(formData))).toString()
+                    const body = new FormData(form)
                     if (form.method.toLowerCase() === `post`) {
-                        axette.run(form.action, params, `application/x-www-form-urlencoded`)
-                        .catch(err => console.error(err))
+                        axette.run(form.action, body, `application/form-multipart`, form as Element, `POST`)
+                            .catch(err => console.error(err))
                     } else {
+                        const formData = new FormData(form)
+                        const params = (new URLSearchParams(String(formData))).toString()
                         axette.run(`${form.action}?${params}`)
-                        .catch(err => console.error(err))
+                            .catch(err => console.error(err))
                     }
+
+                    form.reset()
                 })
             }
         })
@@ -87,20 +137,21 @@ function init(ajaxClass: string = `ajax`) {
 }
 
 /**
- * Handles Nette response by updating snippets and/or redirecting if necessary
- * @param link Target URL
- * @param data Request body
- * @param contentType `Content-Type` header
- */
-async function onAjax(link: string, data: BodyInit|null = null, contentType = `application/json`) {
+* Handles Nette response by updating snippets and/or redirecting if necessary
+* @param link (string) Target URL
+* @param requestBody (any) Request body
+* @param contentType (string) `Content-Type` header (default: `application/json`)
+* @param element (Element) The element that sent the event
+* @param method (string) HTTP method (default: `POST`)
+*/
+async function onAjax(link: string, requestBody: any = null, contentType: string = `application/json`, element: Element|null = null, method: string = `POST`) {
+    const formParent = element ? element.closest("form[data-ajax-parent]") : null
     const response = await fetch(link, {
-        method: data ? `POST` : `GET`,
-        headers: {
-            'X-Requested-With': 'XMLHttpRequest',
-            ...(data && { 'Content-Type': contentType }),
-        },
-        ...(data && { body: data })
+        method: formParent ? "POST" : method,
+        headers: { "X-Requested-With": "XMLHttpRequest" },
+        body: requestBody as BodyInit,
     })
+
     const { snippets = {}, redirect = `` } = await response.json()
     if (redirect !== ``) {
         window.location.replace(redirect)
@@ -143,12 +194,12 @@ function onInitHook(callback: Function, ...args: any[]) {
 }
 
 /**
- * Add new callback to the specified event to be run every time that event is triggered
- * @param event Name of the event to add hook to (`onInit`, `onAjax`, ...)
- * @param callback Function to call
- * @param args Function arguments
- * @returns Hook or null if event name is invalid
- */
+* Add new callback to the specified event to be run every time that event is triggered
+* @param event Name of the event to add hook to (`onInit`, `onAjax`, ...)
+* @param callback Function to call
+* @param args Function arguments
+* @returns Hook or null if event name is invalid
+*/
 function onHook(event: keyof Hooks, callback: Function, ...args: any[]): Hook|null {
     return axette.hooks.addHook(event, { fn: callback, args: args })
 }
