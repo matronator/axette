@@ -3,6 +3,7 @@
 ![npm](https://img.shields.io/npm/v/axette)
 ![GitHub Repo stars](https://img.shields.io/github/stars/matronator/axette)
 ![Snyk Vulnerabilities for npm package version](https://img.shields.io/snyk/vulnerabilities/npm/axette)
+[![CodeFactor](https://www.codefactor.io/repository/github/matronator/axette/badge)](https://www.codefactor.io/repository/github/matronator/axette)
 ![npm](https://img.shields.io/npm/dw/axette)
 ![NPM](https://img.shields.io/npm/l/axette)
 ![npm dev dependency version](https://img.shields.io/npm/dependency-version/axette/dev/typescript)
