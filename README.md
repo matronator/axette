@@ -8,6 +8,8 @@
 ![NPM](https://img.shields.io/npm/l/axette)
 ![npm dev dependency version](https://img.shields.io/npm/dependency-version/axette/dev/typescript)
 
+#### Notice: If you like this project, please consider donating. The battery on my macbook died and I need to get it replaced to be able to work, but a battery replacement for macbook is kinda expensive and money's little tight right now. Any help would be much appretiated! Thank you :)
+
 # Axette
 
 https://www.npmjs.com/package/axette
