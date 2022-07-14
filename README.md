@@ -1,4 +1,4 @@
-![vermin vibes@2x](https://user-images.githubusercontent.com/5470780/122844829-ca28d100-d302-11eb-870f-050666075034.png)
+![Axette logo](https://user-images.githubusercontent.com/5470780/122844829-ca28d100-d302-11eb-870f-050666075034.png)
 
 ![npm](https://img.shields.io/npm/v/axette)
 ![GitHub Repo stars](https://img.shields.io/github/stars/matronator/axette)
@@ -7,6 +7,8 @@
 ![npm](https://img.shields.io/npm/dw/axette)
 ![NPM](https://img.shields.io/npm/l/axette)
 ![npm dev dependency version](https://img.shields.io/npm/dependency-version/axette/dev/typescript)
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/U7U2MDBC)
 
 <!-- #### Notice: If you like this project, please consider [donating](https://github.com/matronator#support). The battery on my macbook died and I need to get it replaced to be able to work, but a battery replacement for a 7 year old macbook is kinda expensive and money's little tight right now. Any help would be much appretiated! Thank you :) -->
 
