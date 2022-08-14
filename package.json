@@ -11,11 +11,11 @@
   ],
   "scripts": {
     "analyze": "size-limit --why",
-    "build": "dts build",
+    "build": "dts build --format umd,cjs,esm",
     "lint": "dts lint",
-    "prepare": "dts build",
+    "prepare": "dts build --format umd,cjs,esm",
     "size": "size-limit",
-    "start": "dts watch",
+    "start": "dts watch --format umd,cjs,esm",
     "test": "dts test"
   },
   "maintainers": [
@@ -45,9 +45,10 @@
     }
   },
   "prettier": {
-    "printWidth": 80,
+    "printWidth": 120,
     "semi": true,
     "singleQuote": true,
+    "tabWidth": 4,
     "trailingComma": "es5"
   },
   "jest": {
