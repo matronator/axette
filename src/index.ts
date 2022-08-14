@@ -17,7 +17,7 @@ declare global {
 
 export class Axette {
   constructor(ajaxClass: string = `ajax`) {
-    let globalCallbacks: GlobalHooks = {
+    const globalCallbacks: GlobalHooks = {
       onInitHooks: [],
       onAjaxHooks: [],
       initialized: true,
