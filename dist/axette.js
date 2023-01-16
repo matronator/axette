@@ -77,7 +77,7 @@
         links.forEach(function(link) {
             link.addEventListener('click', function(e) {
                 e.preventDefault()
-                axette.run(e.target.href)
+                axette.run(e.currentTarget.href)
             })
         })
     }

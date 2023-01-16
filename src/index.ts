@@ -101,7 +101,7 @@ function init(ajaxClass: string = `ajax`) {
         links.forEach((link: Element) => {
             link.addEventListener(`click`, (e: Event) => {
                 e.preventDefault()
-                axette.run((e.target as HTMLAnchorElement).href)
+                axette.run((e.currentTarget as HTMLAnchorElement).href)
             })
         })
     }
