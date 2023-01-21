@@ -58,7 +58,7 @@ var axette = function() {
             links.forEach(function(link) {
                 link.addEventListener('click', function(e) {
                     e.preventDefault()
-                    _axette.run(e.target.href)
+                    _axette.run(e.currentTarget.href)
                 })
             })
         }
