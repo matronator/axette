@@ -20,10 +20,12 @@ jobs:
           node-version: ${{ matrix.node }}
 
       - name: Install deps and build (with cache)
-        uses: bahmutov/npm-install@v1
+        run: |
+          npm i -g pnpm
+          pnpm i --frozen-lockfile
 
       - name: Test
-        run: yarn test --ci --coverage --maxWorkers=2
+        run: npm run test --ci --coverage --maxWorkers=2
 
       - name: Build
-        run: yarn build
+        run: npm run build
