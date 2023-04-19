@@ -7,17 +7,17 @@
 
 export interface Hook {
     callback: Function;
-    args: any[];
+    args?: any[];
     id?: string;
 }
 
 export type HookEvents = 'beforeAjax' | 'afterAjax' | 'beforeInit' | 'afterInit';
 
 export class Hooks {
-    beforeAjax: Hook[] = [];
-    afterAjax: Hook[] = [];
-    beforeInit: Hook[] = [];
-    afterInit: Hook[] = [];
+    public beforeAjax: Hook[] = [];
+    public afterAjax: Hook[] = [];
+    public beforeInit: Hook[] = [];
+    public afterInit: Hook[] = [];
 
     addBeforeAjax(hook: Hook): Hook|null { return this.add('beforeAjax', hook); }
     addAfterAjax(hook: Hook): Hook|null { return this.add('afterAjax', hook); }
@@ -48,7 +48,7 @@ export class Hooks {
 }
 
 export class Axette {
-    private hooks: Hooks = new Hooks;
+    public hooks: Hooks = new Hooks;
     private selector: string = `.ajax`;
 
     constructor(selector: string = `.ajax`) {
@@ -56,34 +56,43 @@ export class Axette {
         this.init();
     }
 
-    onBeforeAjax(callback: Function, args: any[], id?: string): Hook|null { return this.hooks.addBeforeAjax({ callback, args, id }); }
-    onAfterAjax(callback: Function, args: any[], id?: string): Hook|null { return this.hooks.addAfterAjax({ callback, args, id }); }
-    onBeforeInit(callback: Function, args: any[], id?: string): Hook|null { return this.hooks.addBeforeInit({ callback, args, id }); }
-    onAfterInit(callback: Function, args: any[], id?: string): Hook|null { return this.hooks.addAfterInit({ callback, args, id }); }
+    onBeforeAjax(callback: Function, args?: any[], id?: string): Hook|null { return this.hooks.addBeforeAjax({ callback, args, id }); }
+    onAfterAjax(callback: Function, args?: any[], id?: string): Hook|null { return this.hooks.addAfterAjax({ callback, args, id }); }
+    onBeforeInit(callback: Function, args?: any[], id?: string): Hook|null { return this.hooks.addBeforeInit({ callback, args, id }); }
+    onAfterInit(callback: Function, args?: any[], id?: string): Hook|null { return this.hooks.addAfterInit({ callback, args, id }); }
 
     /**
     * Add new callback to the specified event to be run every time that event is triggered
     * @param event Name of the event to add hook to (`onBeforeInit`, `onAfterAjax`, ...)
     * @param callback Function to call
-    * @param args Function arguments
+    * @param args (optional) Function arguments
     * @param id (optional) ID of the hook
     * @returns Hook or null if event name is invalid
     */
-    on(event: HookEvents, callback: Function, args: any[], id?: string): Hook|null {
+    on(event: HookEvents, callback: Function, args?: any[], id?: string): Hook|null {
         return this.hooks.add(event, { callback, args, id });
     }
 
+    /**
+     * Remove hook from the specified event. If no hook or ID is provided, all hooks for that event will be removed.
+     * @param event Name of the event to remove hook from (`onBeforeInit`, `onAfterAjax`, ...)
+     * @param hook Hook to remove
+     * @param id (optional) ID of the hook to remove
+     * @returns Hook or null if event name is invalid
+     **/
     off(event: HookEvents, hook?: Hook, id?: string): void {
         if (hook) {
             this.hooks.remove(event, hook);
         } else if (id) {
             this.hooks.removeById(event, id);
+        } else {
+            this.hooks[event] = [];
         }
     }
 
     init() {
         this.hooks.beforeInit.forEach((hook: Hook) => {
-            hook.callback(...hook.args);
+            hook.callback(...hook.args || []);
         });
 
         const links = document.querySelectorAll(`a${this.selector}`);
@@ -116,7 +125,7 @@ export class Axette {
         }
 
         this.hooks.afterInit.forEach((hook: Hook) => {
-            hook.callback(...hook.args);
+            hook.callback(...hook.args || []);
         });
     }
 
@@ -130,7 +139,7 @@ export class Axette {
     */
     async handleAjax(url: string, method: string = `POST`, requestBody?: BodyInit|null, headers: {[key: string]: string} = {'Content-Type': `application/json`}, element: Element|null = null) {
         this.hooks.beforeAjax.forEach(hook => {
-            hook.callback(...hook.args);
+            hook.callback(...hook.args || []);
         });
 
         const formParent = element ? element.closest("form[data-ajax-parent]") : null;
@@ -149,7 +158,7 @@ export class Axette {
         });
 
         this.hooks.afterAjax.forEach(hook => {
-            hook.callback(...hook.args);
+            hook.callback(...hook.args || []);
         });
 
         this.init();
