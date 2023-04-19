@@ -1,7 +1,27 @@
 {
-  "extends": "@tsconfig/recommended/tsconfig.json",
-  "include": ["src", "types"],
-  "compilerOptions": {
-    "module": "esnext",
-  }
-}
+    "compilerOptions": {
+        "rootDir": "./src",
+        "target": "ESNext",
+        "useDefineForClassFields": true,
+        "module": "ESNext",
+        "lib": ["ESNext", "DOM"],
+        "moduleResolution": "Node",
+        "strict": true,
+        "sourceMap": true,
+        "resolveJsonModule": true,
+        "esModuleInterop": true,
+        "noEmit": true,
+        "noUnusedLocals": true,
+        "removeComments": true,
+        "alwaysStrict": true,
+        "experimentalDecorators": true,
+        "noErrorTruncation": true,
+        "noUnusedParameters": true,
+        "noImplicitReturns": true,
+        "forceConsistentCasingInFileNames": true,
+        "types": ["vite/client", "node"]
+    },
+    "include": ["src"],
+    "references": [{ "path": "./tsconfig.node.json" }],
+    "exclude": ["**/*.test.ts", "node_modules", "test/**", ".history/**"]
+}  

@@ -1,81 +1,49 @@
 {
   "name": "axette",
-  "version": "2.0.0",
   "description": "Very simple and lightweight AJAX implementation for Nette",
-  "main": "dist/index.js",
-  "module": "dist/axette.esm.js",
-  "typings": "dist/index.d.ts",
-  "files": [
-    "dist",
-    "src"
-  ],
+  "version": "2.0.0",
+  "main": "./dist/axette.cjs",
+  "module": "./dist/axette.mjs",
+  "exports": {
+    ".": {
+      "require": "./dist/axette.cjs",
+      "import": "./dist/axette.mjs"
+    }
+  },
   "scripts": {
-    "analyze": "size-limit --why",
-    "build": "dts build --format umd,cjs,esm",
-    "lint": "dts lint",
-    "prepare": "dts build --format umd,cjs,esm",
-    "size": "size-limit",
-    "start": "dts watch --format umd,cjs,esm",
-    "test": "dts test"
+    "dev": "vite --host",
+    "build": "tsc && vite build && dts-bundle-generator --config ./dts-bundle-generator.config.ts",
+    "test": "vitest",
+    "test:coverage": "vitest run --coverage"
+  },
+  "devDependencies": {
+    "@types/node": "^18.15.11",
+    "@vitest/coverage-c8": "^0.29.8",
+    "dts-bundle-generator": "^7.1.0",
+    "typescript": "^4.9.4",
+    "vite": "^4.0.4",
+    "vitest": "^0.29.8"
   },
   "maintainers": [
     "Matronator"
   ],
   "contributors": [
-    "Matronator",
-    "Matouš Trča"
+    "Matronator"
   ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/matronator/axette.git"
   },
-  "funding": "https://github.com/matronator/axette?sponsor=1",
   "keywords": [
     "nette",
-    "ajax"
+    "ajax",
+    "axette",
+    "lightweight"
   ],
   "author": "Matronator",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/matronator/axette/issues"
   },
-  "homepage": "https://github.com/matronator/axette#readme",
-  "husky": {
-    "hooks": {
-      "pre-commit": "dts lint"
-    }
-  },
-  "prettier": {
-    "printWidth": 120,
-    "semi": true,
-    "singleQuote": true,
-    "tabWidth": 4,
-    "trailingComma": "es5"
-  },
-  "jest": {
-    "testEnvironment": "node"
-  },
-  "peerDependencies": {},
-  "engines": {
-    "node": ">=12"
-  },
-  "size-limit": [
-    {
-      "path": "dist/axette.cjs.production.min.js",
-      "limit": "10 KB"
-    },
-    {
-      "path": "dist/axette.esm.js",
-      "limit": "10 KB"
-    }
-  ],
-  "devDependencies": {
-    "@size-limit/preset-small-lib": "^8.0.1",
-    "@tsconfig/recommended": "^1.0.1",
-    "dts-cli": "^1.5.2",
-    "husky": "^8.0.1",
-    "size-limit": "^8.0.1",
-    "tslib": "^2.4.0",
-    "typescript": "^4.7.4"
-  }
+  "homepage": "https://github.com/matronator/axette#readme"
 }
