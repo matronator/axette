@@ -12,3 +12,4 @@ npm-debug.log*
 *.log
 dts-readme.md
 src/index-old.ts
+.github
