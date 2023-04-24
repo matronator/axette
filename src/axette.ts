@@ -196,8 +196,8 @@ function setHtml(id: string, html: string) {
 * Removes `?_fid=xxxx` from the URL that Nette adds there whenever it shows a FlashMessage.
 */
 export function fixUrl() {
-    let l = window.location.toString();
-    let fid = l.indexOf(`_fid=`);
+    const l = window.location.toString();
+    const fid = l.indexOf(`_fid=`);
     if(fid !== -1) {
         let uri: string = l.substring(0, fid) + l.substring(fid + 10);
         if ((uri.substring(uri.length - 1) === `?`) || (uri.substring(uri.length - 1) === `&`)) {
