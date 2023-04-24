@@ -11,8 +11,6 @@
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/U7U2MDBC)
 
-<!-- #### Notice: If you like this project, please consider [donating](https://github.com/matronator#support). The battery on my macbook died and I need to get it replaced to be able to work, but a battery replacement for a 7 year old macbook is kinda expensive and money's little tight right now. Any help would be much appretiated! Thank you :) -->
-
 # Axette
 
 https://www.npmjs.com/package/axette
@@ -27,7 +25,8 @@ Very simple and lightweight AJAX implementation for [Nette](https://nette.org). 
   * [With npm (recommended)](#with-npm-recommended)
   * [With yarn (recommended)](#with-yarn-recommended)
   * [With `<script>` tag](#with-script-tag)
-  * [Fetch polyfill](#fetch-polyfill)
+    * [Fetch polyfill](#fetch-polyfill)
+* [Migration from 1.x to 2.x](#migration-from-1x-to-2x)
 * [Usage](#usage)
   * [Custom CSS class](#custom-css-class)
   * [Custom event listeners](#custom-event-listeners)
@@ -48,21 +47,37 @@ Very simple and lightweight AJAX implementation for [Nette](https://nette.org). 
 
 ## Installation
 
-### With npm (recommended):
+### With package manager (recommended)
+
+#### NPM:
 
 ```
 npm install axette
 ```
 
-### With yarn (recommended):
+#### PNPM:
+
+```
+pnpm install axette
+```
+
+#### Yarn:
 
 ```
 yarn add axette
 ```
 
-### With `<script>` tag:
+#### Bun:
 
-Download the [latest release](https://github.com/matronator/axette/releases/latest), move `axette.js` or `axette.min.js` somewhere to your project and include it in your HTML or Latte file via a `<script>` tag.
+```sh
+bun add axette
+# or
+bun install axette
+```
+
+### With a `<script>` tag:
+
+Download the [latest release](https://github.com/matronator/axette/releases/latest), move `axette.iife.js` from the `dist/` folder somewhere to your project and include it in your HTML or Latte file via a `<script>` tag.
 
 ```html
 <!DOCTYPE html>
@@ -73,47 +88,82 @@ Download the [latest release](https://github.com/matronator/axette/releases/late
     <body>
         ...
 
-        <!-- Minified version (recommended for production) -->
-        <script src="./dist/axette.min.js"></script>
-        OR
-        <!-- Un-minified version (recommended for development) -->
-        <script src="./dist/axette.js"></script>
+        <!-- Local version -->
+        <script src="./path/to/axette.iife.js"></script>
         OR
         <!-- Via CDN -->
-        <script src="https://unpkg.com/axette@latest/dist/axette.min.js"></script>
+        <script src="https://unpkg.com/axette@latest/dist/axette.iife.js"></script>
 
         <!-- Your other scripts here... -->
     </body>
 </html>
 ```
 
-### Fetch polyfill
+## Migration from 1.x to 2.x
 
-If you're not using any transpiler or bundler (just importing `<script>` tags directly to your page) and want maximum browser compatibility, it's recommended to include a polyfill for the ES6 `fetch()` function as well.
+Axette 2.x is a partial rewrite of the original 1.x version. It tries to keep the same API as much as possible, but there are some breaking changes.
 
-You will find it along with the rest of the files either in the `dist/` folder or when downloading from [Releases](https://github.com/matronator/axette/releases).
+### Breaking changes
+
+- `Axette` is now a class instead of an object and is exported as named export instead of default export. This means that you need to import it like this:
+
+```js
+// Change this:
+import axette from 'axette';
+
+// To this:
+import { Axette } from 'axette';
+```
+
+- You can now use any CSS selector for custom AJAX handlers and not just a class, so you can use for instance data-attributes instead. It's also not defined in the `init()` method anymore, but in the `Axette` class constructor. So if you want to use `[data-ajax]` instead of `.ajax` class, you'd do it like this (no need to call `init()` as that's called automatically in the constructor):
+
+```js
+import { Axette } from 'axette';
+
+// Change this:
+axette.init('ajax'); // note that here you can define only a class name
+
+// To this:
+const axette = new Axette('[data-ajax]'); // here you can define any CSS selector
+
+// You can also use multiple selectors like this:
+const axette = new Axette('.ajax, [data-ajax]');
+```
 
 ```html
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Axette with fetch polyfill</title>
-    </head>
-    <body>
-        ...
-
-        <!-- Optional fetch polyfill -->
-        <script src="./dist/fetch.umd.js"></script>
-
-        <!-- Axette -->
-        <script src="./dist/axette.min.js"></script>
-
-        <!-- Your other scripts here... -->
-    </body>
-</html>
+<a n:href="update!" data-ajax>Update snippets</a>
 ```
 
-*Credits to GitHub* - https://github.com/github/fetch
+Or call it empty to use the default class name `.ajax` like before:
+
+```js
+const axette = new Axette();
+
+// This is equivalent to this in the 1.x version:
+axette.init();
+```
+
+- It is now possible to change the CSS selector after the `Axette` instance is created. So if you want to use a different selector after already using the original one, you can do so like this:
+
+```js
+import { Axette } from 'axette';
+
+const axette = new Axette();
+
+axette.setSelector('.new-selector'); // Beware that this will call the `init()` method again, so your init hooks will be called again
+```
+
+- To remove the `?_fid=XXXX` in the URL when using Flash Messages, you now need to import the `noFlashUrl()` function without having to import Axette as well, instead of calling `fixUrl()` method on the axette object:
+
+```js
+// Change this:
+axette.fixUrl();
+
+// To this:
+import { noFlashUrl } from 'axette';
+
+noFlashUrl();
+```
 
 ## Usage
 
@@ -123,17 +173,17 @@ Add a class to the links or forms that you would like to handle via AJAX:
 <a n:href="update!" class="ajax">Update snippets</a>
 ```
 
-And in your `index.js` or other JavaScript file you just import `axette` and call the `init()` function like this:
+And in your `index.js` or other JavaScript file you just import `Axette` and initialize it:
 
 ```js
-import axette from "axette"
+import { Axette } from "axette"
 
-axette.init()
+const axette = new Axette();
 ```
 
-And that's it! The `.init()` method handles everything.
+And that's it! The class constructor handles everything.
 
-### Custom CSS class
+### Custom CSS selector
 
 If you'd like to use some other class for your links, you just pass the name of the class as a parameter in the `.init()`. So if for instance you want your AJAX links to have `custom-class` instead of `ajax`, then you'd do it like so:
 
@@ -147,14 +197,17 @@ If you'd like to use some other class for your links, you just pass the name of 
 
 
 ```js
-import axette from "axette"
+import { Axette } from "axette"
 
-axette.init("custom-class")
+const axette = new Axette('.custom-class'); // The selector can be any valid CSS selector
+
+// You can also use multiple selectors like this:
+const axette = new Axette('.custom-class, [data-ajax]');
 ```
 
 ### Custom event listeners
 
-If you have some event listeners that you're adding on the `DOMContentLoaded` event or similar, you will have to wrap them in a function and pass it as a hook to `axette`, to have them re-registered after the AJAX request is received. You can do that using the `.on()` function. So if you have something like this:
+If you have some event listeners that you're adding on the `DOMContentLoaded` event or similar and you want them to work even after an AJAX request, you will have to wrap them in a function and pass it as a hook to `axette`, to have them re-registered after the AJAX request is received. You can do that using the `.on()` method. So if you have something like this:
 
 ```js
 document.addEventListener(`DOMContentLoaded`, () => {
@@ -171,6 +224,8 @@ document.addEventListener(`DOMContentLoaded`, () => {
 You'd wrap it in a function and pass that function as a parameter to the `.on()` function like so:
 
 ```js
+import { Axette } from "axette"
+
 function registerButtons() {
     document.addEventListener(`DOMContentLoaded`, () => {
         const buttons = document.querySelectorAll(`.btn`)
@@ -183,23 +238,53 @@ function registerButtons() {
     })
 }
 
-axette.on(`onAjax`, registerButtons)
+const axette = new Axette()
+axette.on(`afterAjax`, registerButtons)
 ```
 
-Or you could directly call `.onAjax()` or `.onInit()` with just the function reference like this:
+Or you could directly call `onBeforeAjax()`, `onAfterAjax()`, `onBeforeInit()` or `onAfterInit()` with the function reference, optional arguments and optional ID like this:
 
 ```js
-axette.onAjax(registerButtons)
-// or
-axette.onInit(registerButtons)
+axette.onAfterAjax(registerButtons)
+// or with the ID and arguments:
+axette.onAfterAjax(registerButtons, [arg1, arg2], 'my-id')
+// or with the ID only:
+axette.onAfterAjax(registerButtons, [], 'my-id')
+```
+
+And then you can remove the hook with the `.off()` method:
+
+```js
+axette.off(`afterAjax`, registerButtons)
+// or with the ID:
+axette.off(`afterAjax`, 'my-id')
 ```
 
 ### Remove `?_fid=XXXX` from URLs
 
-Nette by default appends `?_fid=XXXX` to the URLs if you call the `flashMessage()` function. To remove this from the URL, you can call the `.fixURL()` function somewhere in your script:
+Nette by default appends `?_fid=XXXX` to the URLs if you call the `flashMessage()` function. To remove the `?_fid=XXXX` from the URL when using Flash Messages, you need to import the `noFlashUrl()` function:
 
 ```js
-axette.fixURL()
+import { noFlashUrl } from 'axette';
+
+noFlashUrl();
+```
+
+### Sending requests manually
+
+If you call `fetch()` or `XMLHttpRequest()` manually, the snippets won't be automatically updated. To update the snippets manually, you can call the `sendRequest()` method on the `Axette` instance instead of `fetch()` or `XMLHttpRequest()`:
+
+```js
+axette.sendRequest("/url", "GET");
+```
+
+You can also send Body with the request and define headers. The full signature is like this:
+
+```ts
+axette.sendRequest(url, method, body?, headers?);
+
+// Method signature:
+Axette.sendRequest(url: string, method: string = `POST`, requestBody?: BodyInit|null, headers: {[key: string]: string} = {'Content-Type': `application/json`})
 ```
 
 ## Credits

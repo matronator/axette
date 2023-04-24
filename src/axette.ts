@@ -56,6 +56,11 @@ export class Axette {
         this.init();
     }
 
+    setSelector(selector: string) {
+        this.selector = selector;
+        this.init();
+    }
+
     onBeforeAjax(callback: Function, args?: any[], id?: string): Hook|null { return this.hooks.addBeforeAjax({ callback, args, id }); }
     onAfterAjax(callback: Function, args?: any[], id?: string): Hook|null { return this.hooks.addAfterAjax({ callback, args, id }); }
     onBeforeInit(callback: Function, args?: any[], id?: string): Hook|null { return this.hooks.addBeforeInit({ callback, args, id }); }
@@ -90,10 +95,12 @@ export class Axette {
         }
     }
 
-    init() {
-        this.hooks.beforeInit.forEach((hook: Hook) => {
-            hook.callback(...hook.args || []);
-        });
+    init(afterAjax: boolean = false) {
+        if (!afterAjax) {
+            this.hooks.beforeInit.forEach((hook: Hook) => {
+                hook.callback(...hook.args || []);
+            });
+        }
 
         const links = document.querySelectorAll(`a${this.selector}`);
         if (links) {
@@ -124,9 +131,11 @@ export class Axette {
             });
         }
 
-        this.hooks.afterInit.forEach((hook: Hook) => {
-            hook.callback(...hook.args || []);
-        });
+        if (!afterAjax) {
+            this.hooks.afterInit.forEach((hook: Hook) => {
+                hook.callback(...hook.args || []);
+            });
+        }
     }
 
     /**
@@ -137,7 +146,7 @@ export class Axette {
     * @param headers (string) `Content-Type` header (default: `application/json`)
     * @param element (Element) The element that sent the event
     */
-    async handleAjax(url: string, method: string = `POST`, requestBody?: BodyInit|null, headers: {[key: string]: string} = {'Content-Type': `application/json`}, element: Element|null = null) {
+    private async handleAjax(url: string, method: string = `POST`, requestBody?: BodyInit|null, headers: {[key: string]: string} = {'Content-Type': `application/json`}, element: Element|null = null) {
         this.hooks.beforeAjax.forEach(hook => {
             hook.callback(...hook.args || []);
         });
@@ -161,7 +170,11 @@ export class Axette {
             hook.callback(...hook.args || []);
         });
 
-        this.init();
+        this.init(true);
+    }
+
+    sendRequest(url: string, method: string = `POST`, requestBody?: BodyInit|null, headers: {[key: string]: string} = {'Content-Type': `application/json`}) {
+        return this.handleAjax(url, method, requestBody, headers);
     }
 }
 

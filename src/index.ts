@@ -1,2 +1,2 @@
-export { Axette, Hooks, fixUrl } from './axette';
-export type { Hook, HookEvents } from './axette';
+export { Axette, fixUrl as noFlashUrl } from './axette';
+export type { Hook, HookEvents, Hooks } from './axette';

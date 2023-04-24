@@ -14,7 +14,6 @@ describe("add", () => {
   });
 
   it("Add hook with ID", () => {
-    const axette = new Axette();
     axette.on('beforeAjax', () => {}, [], 'test');
     expect(axette.hooks.beforeAjax.findIndex(h => h.id === 'test')).toBeGreaterThan(-1);
   });
