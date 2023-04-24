@@ -1,0 +1,14 @@
+.idea
+.vscode
+.DS_Store
+/coverage
+/demo/dist
+/es
+/lib
+/node_modules
+node_modules
+/umd
+npm-debug.log*
+*.log
+dts-readme.md
+src/index-old.ts
