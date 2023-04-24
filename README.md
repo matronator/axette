@@ -19,31 +19,42 @@ Very simple and lightweight AJAX implementation for [Nette](https://nette.org). 
 
 ## Table of Contents
 
-* [Introduction](#axette)
-  * [Features](#features)
-* [Installation](#installation)
-  * [With npm (recommended)](#with-npm-recommended)
-  * [With yarn (recommended)](#with-yarn-recommended)
-  * [With `<script>` tag](#with-script-tag)
-    * [Fetch polyfill](#fetch-polyfill)
-* [Migration from 1.x to 2.x](#migration-from-1x-to-2x)
-* [Usage](#usage)
-  * [Custom CSS class](#custom-css-class)
-  * [Custom event listeners](#custom-event-listeners)
-  * [Remove `?_fid=XXXX` from URLs](#remove-_fidxxxx-from-urls)
-* [Credits](#credits)
-* [License](#license)
+- [Table of Contents](#table-of-contents)
+- [Features](#features)
+- [Installation](#installation)
+  - [With package manager (recommended)](#with-package-manager-recommended)
+    - [NPM:](#npm)
+    - [PNPM:](#pnpm)
+    - [Yarn:](#yarn)
+    - [Bun:](#bun)
+  - [With a `<script>` tag:](#with-a-script-tag)
+- [Migration from 1.x to 2.x](#migration-from-1x-to-2x)
+  - [Breaking changes](#breaking-changes)
+- [Usage](#usage)
+  - [Custom CSS selector](#custom-css-selector)
+  - [Custom event listeners](#custom-event-listeners)
+  - [Events](#events)
+    - [`beforeInit`](#beforeinit)
+    - [`afterInit`](#afterinit)
+    - [`beforeAjax`](#beforeajax)
+    - [`afterAjax`](#afterajax)
+  - [Sending requests manually](#sending-requests-manually)
+  - [Remove `?_fid=XXXX` from URLs](#remove-_fidxxxx-from-urls)
+- [Credits](#credits)
+- [License](#license)
 
-### Features
+## Features
 
-- No dependency required (NO jQuery!)
-- Supports links and forms (`<a>` and `<form>` tags) to be handled by AJAX
-- Fast snippet updating
-- Handles snippet updates (`$this->redrawControl()`) as well as redirects (`$this->redirect()`)
+- Lightweight (**1kb** gzipped, **3kb** minified)
+- Blazingly Fast
+- No dependencies (no jQuery!)
 - Simple to use
-  - Just import it, call `axette.init()` and you're done!
+  - Just import it, call `const axette = new Axette()` and you're done!
+- Supports links and forms (`<a>` and `<form>` tags) to be handled by AJAX
+- Handles snippet updates (`$this->redrawControl()`) as well as redirects (`$this->redirect()`)
+- Automatically executes JavaScript inside `<script>` tags in the snippets returned from AJAX requests
 - Get rid of `?_fid=6ge7` in the URL when using Flash Messages
-- Attach custom callbacks to `onAjax` event
+- Attach custom callbacks to various events (`beforeInit`, `afterInit`, `beforeAjax`, etc...)
 
 ## Installation
 
@@ -105,7 +116,7 @@ Axette 2.x is a partial rewrite of the original 1.x version. It tries to keep th
 
 ### Breaking changes
 
-- `Axette` is now a class instead of an object and is exported as named export instead of default export. This means that you need to import it like this:
+- `Axette` is now a class instead of an object and is a named export instead of default export. This means that you need to import it like this:
 
 ```js
 // Change this:
@@ -139,7 +150,7 @@ Or call it empty to use the default class name `.ajax` like before:
 ```js
 const axette = new Axette();
 
-// This is equivalent to this in the 1.x version:
+// Is equivalent to this in the 1.x version:
 axette.init();
 ```
 
@@ -148,9 +159,11 @@ axette.init();
 ```js
 import { Axette } from 'axette';
 
-const axette = new Axette();
+const axette = new Axette('.old-selector');
 
-axette.setSelector('.new-selector'); // Beware that this will call the `init()` method again, so your init hooks will be called again
+// Do some stuff...
+
+axette.setSelector('.new-selector'); // Beware that this will call the `init()` method again, so your init hooks (beforeInit, afterInit) will be called again
 ```
 
 - To remove the `?_fid=XXXX` in the URL when using Flash Messages, you now need to import the `noFlashUrl()` function without having to import Axette as well, instead of calling `fixUrl()` method on the axette object:
@@ -167,7 +180,7 @@ noFlashUrl();
 
 ## Usage
 
-Add a class to the links or forms that you would like to handle via AJAX:
+Add `ajax` class to the links or forms that you would like to handle via AJAX:
 
 ```html
 <a n:href="update!" class="ajax">Update snippets</a>
@@ -185,7 +198,7 @@ And that's it! The class constructor handles everything.
 
 ### Custom CSS selector
 
-If you'd like to use some other class for your links, you just pass the name of the class as a parameter in the `.init()`. So if for instance you want your AJAX links to have `custom-class` instead of `ajax`, then you'd do it like so:
+If you'd like to use some other class for your links, you just pass the name of the class as a parameter in the constructor. So if for instance you want your AJAX links to have `custom-class` instead of `ajax`, then you'd do it like so:
 
 `index.html`:
 
@@ -194,7 +207,6 @@ If you'd like to use some other class for your links, you just pass the name of 
 ```
 
 `index.js`:
-
 
 ```js
 import { Axette } from "axette"
@@ -255,9 +267,55 @@ axette.onAfterAjax(registerButtons, [], 'my-id')
 And then you can remove the hook with the `.off()` method:
 
 ```js
+// Either by passing the function reference:
 axette.off(`afterAjax`, registerButtons)
-// or with the ID:
+// or with ID:
 axette.off(`afterAjax`, 'my-id')
+// or with the Hook object:
+axette.off(hook)
+```
+
+Or you can call the method without any parameters to remove all hooks on that specific event:
+
+```js
+axette.off(`afterAjax`)
+```
+
+### Events
+
+Axette has several events you can attach hooks (callbacks) to. You can attach multiple hooks to the same event. The hooks are called in the order they were attached.
+
+#### `beforeInit`
+
+Called before the `init()` method is called.
+
+#### `afterInit`
+
+Called after the `init()` method is called.
+
+#### `beforeAjax`
+
+Called before the AJAX request is sent.
+
+#### `afterAjax`
+
+Called after the AJAX request is sent.
+
+### Sending requests manually
+
+If you call `fetch()` or `XMLHttpRequest()` manually, the snippets won't be automatically updated. To update the snippets, you can call the `sendRequest()` method on the `Axette` instance instead of `fetch()` or `XMLHttpRequest()`:
+
+```js
+axette.sendRequest("/url", "GET");
+```
+
+You can also send Body with the request and define headers. The method signature is like this:
+
+```ts
+axette.sendRequest(url, method = "POST", body?, headers?); // Only the URL is required
+
+// Full signature:
+Axette.sendRequest(url: string, method: string = `POST`, requestBody?: BodyInit|null, headers: {[key: string]: string} = {'Content-Type': `application/json`})
 ```
 
 ### Remove `?_fid=XXXX` from URLs
@@ -268,23 +326,6 @@ Nette by default appends `?_fid=XXXX` to the URLs if you call the `flashMessage(
 import { noFlashUrl } from 'axette';
 
 noFlashUrl();
-```
-
-### Sending requests manually
-
-If you call `fetch()` or `XMLHttpRequest()` manually, the snippets won't be automatically updated. To update the snippets manually, you can call the `sendRequest()` method on the `Axette` instance instead of `fetch()` or `XMLHttpRequest()`:
-
-```js
-axette.sendRequest("/url", "GET");
-```
-
-You can also send Body with the request and define headers. The full signature is like this:
-
-```ts
-axette.sendRequest(url, method, body?, headers?);
-
-// Method signature:
-Axette.sendRequest(url: string, method: string = `POST`, requestBody?: BodyInit|null, headers: {[key: string]: string} = {'Content-Type': `application/json`})
 ```
 
 ## Credits

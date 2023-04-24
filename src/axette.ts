@@ -79,17 +79,21 @@ export class Axette {
     }
 
     /**
-     * Remove hook from the specified event. If no hook or ID is provided, all hooks for that event will be removed.
-     * @param event Name of the event to remove hook from (`onBeforeInit`, `onAfterAjax`, ...)
-     * @param hook Hook to remove
-     * @param id (optional) ID of the hook to remove
-     * @returns Hook or null if event name is invalid
+     * Remove hook from the specified event. If no hook, function or ID is provided, all hooks for that event will be removed.
      **/
-    off(event: HookEvents, hook?: Hook, id?: string): void {
-        if (hook) {
+    off(event: HookEvents, hook?: Function): void;
+    off(event: HookEvents, hook?: string): void;
+    off(event: HookEvents, hook?: Hook): void;
+    off(event: HookEvents, hook?: Hook|Function|string|null): void {
+        if (typeof hook === `string`) {
+            this.hooks.removeById(event, hook);
+        } else if (typeof hook === 'function') {
+            const toDelete = this.hooks[event].find(h => h.callback === hook);
+            if (toDelete) {
+                this.hooks.remove(event, toDelete);
+            }
+        } else if (hook && hook.callback !== undefined) {
             this.hooks.remove(event, hook);
-        } else if (id) {
-            this.hooks.removeById(event, id);
         } else {
             this.hooks[event] = [];
         }
