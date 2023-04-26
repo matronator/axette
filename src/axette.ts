@@ -57,6 +57,7 @@ export class Axette {
     }
 
     setSelector(selector: string) {
+        this.removeOldHandlers();
         this.selector = selector;
         this.init();
     }
@@ -94,8 +95,46 @@ export class Axette {
             }
         } else if (hook && hook.callback !== undefined) {
             this.hooks.remove(event, hook);
-        } else {
+        } else if (hook === undefined) {
             this.hooks[event] = [];
+        } else {
+            throw new TypeError(`Second argument is invalid.`, { cause: hook });
+        }
+    }
+
+    private onLinkClick(e: Event) {
+        e.preventDefault();
+        this.handleAjax((e.currentTarget as HTMLAnchorElement).href);
+    }
+
+    private onFormSubmit(e: Event) {
+        e.preventDefault();
+        const form = e.currentTarget as HTMLFormElement;
+        const body = new FormData(form);
+        if (form.method.toLowerCase() === `post`) {
+            this.handleAjax(form.action, 'POST', body, {'Content-Type': `application/form-multipart`}, form as Element).catch(err => console.error(err));
+        } else {
+            const formData = new FormData(form);
+            const params = (new URLSearchParams(String(formData))).toString();
+            this.handleAjax(`${form.action}?${params}`).catch(err => console.error(err));
+        }
+
+        form.reset();
+    }
+
+    private removeOldHandlers() {
+        const links = document.querySelectorAll(`a${this.selector}`);
+        if (links) {
+            links.forEach((link: Element) => {
+                link.removeEventListener(`click`, this.onLinkClick);
+            });
+        }
+
+        const forms = document.querySelectorAll(`form${this.selector}`) as NodeListOf<HTMLFormElement>;
+        if (forms) {
+            forms.forEach(form => {
+                form.removeEventListener(`submit`, this.onFormSubmit);
+            });
         }
     }
 
@@ -104,34 +143,21 @@ export class Axette {
             this.hooks.beforeInit.forEach((hook: Hook) => {
                 hook.callback(...hook.args || []);
             });
+        } else {
+            this.removeOldHandlers();
         }
 
         const links = document.querySelectorAll(`a${this.selector}`);
         if (links) {
             links.forEach((link: Element) => {
-                link.addEventListener(`click`, (e: Event) => {
-                    e.preventDefault();
-                    this.handleAjax((e.currentTarget as HTMLAnchorElement).href);
-                });
+                link.addEventListener(`click`, this.onLinkClick);
             });
         }
 
         const forms = document.querySelectorAll(`form${this.selector}`) as NodeListOf<HTMLFormElement>;
         if (forms) {
             forms.forEach(form => {
-                form.addEventListener(`submit`, (e) => {
-                    e.preventDefault();
-                    const body = new FormData(form);
-                    if (form.method.toLowerCase() === `post`) {
-                        this.handleAjax(form.action, 'POST', body, {'Content-Type': `application/form-multipart`}, form as Element).catch(err => console.error(err));
-                    } else {
-                        const formData = new FormData(form);
-                        const params = (new URLSearchParams(String(formData))).toString();
-                        this.handleAjax(`${form.action}?${params}`).catch(err => console.error(err));
-                    }
-
-                    form.reset();
-                });
+                form.addEventListener(`submit`, this.onFormSubmit);
             });
         }
 
@@ -167,6 +193,14 @@ export class Axette {
             window.location.replace(redirect);
         }
         Object.entries(snippets).forEach(([id, html]) => {
+            const snippetEl = document.getElementById(id);
+            if (!snippetEl) return;
+            snippetEl.querySelectorAll(`a${this.selector}`).forEach(el => {
+                el.removeEventListener(`click`, this.onLinkClick);
+            });
+            snippetEl.querySelectorAll(`form${this.selector}`).forEach(el => {
+                el.removeEventListener(`submit`, this.onFormSubmit);
+            });
             setHtml(id, html as string);
         });
 

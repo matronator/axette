@@ -13,3 +13,9 @@ npm-debug.log*
 dts-readme.md
 src/index-old.ts
 .github
+index.html
+CHANGELOG.md
+favicon.svg
+.gitattributes
+.git/
+.gitignore
