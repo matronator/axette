@@ -49,6 +49,8 @@ export class Hooks {
 
 export class Axette {
     public hooks: Hooks = new Hooks;
+    private linkHandler = this.handleLinkClick.bind(this);
+    private formHandler = this.handleFormSubmit.bind(this);
     private selector: string = `.ajax`;
 
     constructor(selector: string = `.ajax`) {
@@ -102,12 +104,12 @@ export class Axette {
         }
     }
 
-    private onLinkClick(e: Event) {
+    private handleLinkClick(e: Event) {
         e.preventDefault();
         this.handleAjax((e.currentTarget as HTMLAnchorElement).href);
     }
 
-    private onFormSubmit(e: Event) {
+    private handleFormSubmit(e: Event) {
         e.preventDefault();
         const form = e.currentTarget as HTMLFormElement;
         const body = new FormData(form);
@@ -123,17 +125,17 @@ export class Axette {
     }
 
     private removeOldHandlers() {
-        const links = document.querySelectorAll(`a${this.selector}`);
+        const links = document.querySelectorAll(`a${this.selector}`) as NodeListOf<HTMLAnchorElement>;
         if (links) {
-            links.forEach((link: Element) => {
-                link.removeEventListener(`click`, this.onLinkClick);
+            links.forEach((link: HTMLAnchorElement) => {
+                link.removeEventListener(`click`, this.linkHandler, true);
             });
         }
 
         const forms = document.querySelectorAll(`form${this.selector}`) as NodeListOf<HTMLFormElement>;
         if (forms) {
             forms.forEach(form => {
-                form.removeEventListener(`submit`, this.onFormSubmit);
+                form.removeEventListener(`submit`, this.formHandler, true);
             });
         }
     }
@@ -150,14 +152,14 @@ export class Axette {
         const links = document.querySelectorAll(`a${this.selector}`);
         if (links) {
             links.forEach((link: Element) => {
-                link.addEventListener(`click`, this.onLinkClick);
+                link.addEventListener(`click`, this.linkHandler, true);
             });
         }
 
         const forms = document.querySelectorAll(`form${this.selector}`) as NodeListOf<HTMLFormElement>;
         if (forms) {
             forms.forEach(form => {
-                form.addEventListener(`submit`, this.onFormSubmit);
+                form.addEventListener(`submit`, this.formHandler, true);
             });
         }
 
@@ -196,10 +198,10 @@ export class Axette {
             const snippetEl = document.getElementById(id);
             if (!snippetEl) return;
             snippetEl.querySelectorAll(`a${this.selector}`).forEach(el => {
-                el.removeEventListener(`click`, this.onLinkClick);
+                el.removeEventListener(`click`, this.linkHandler, true);
             });
             snippetEl.querySelectorAll(`form${this.selector}`).forEach(el => {
-                el.removeEventListener(`submit`, this.onFormSubmit);
+                el.removeEventListener(`submit`, this.formHandler, true);
             });
             setHtml(id, html as string);
         });
