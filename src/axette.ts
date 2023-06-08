@@ -216,6 +216,14 @@ export class Axette {
     sendRequest(url: string, method: string = `POST`, requestBody?: BodyInit|null, headers: {[key: string]: string} = {'Content-Type': `application/json`}) {
         return this.handleAjax(url, method, requestBody, headers);
     }
+
+    async get(url: string, method: string = `GET`, options: {[key: string]: unknown} = {}) {
+        const res = await fetch(url, {
+            method: method,
+            ...options,
+        });
+        return await res.json();
+    }
 }
 
 function setHtml(id: string, html: string) {
