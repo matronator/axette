@@ -1,9 +1,13 @@
 lockfileVersion: '6.0'
 
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
 devDependencies:
   '@types/node':
     specifier: ^20.2.5
-    version: 20.2.5
+    version: 20.3.3
   '@vitest/coverage-c8':
     specifier: ^0.30.1
     version: 0.30.1(vitest@0.31.4)
@@ -18,7 +22,7 @@ devDependencies:
     version: 5.1.3
   vite:
     specifier: ^4.0.4
-    version: 4.0.4(@types/node@20.2.5)
+    version: 4.0.4(@types/node@20.3.3)
   vitest:
     specifier: ^0.31.4
     version: 0.31.4(jsdom@21.1.1)
@@ -465,8 +469,8 @@ packages:
     resolution: {integrity: sha512-z/QT1XN4K4KYuslS23k62yDIDLwLFkzxOuMplDtObz0+y7VqJCaO2o+SPwHCvLFZh7xazvvoor2tA/hPz9ee7g==}
     dev: true
 
-  /@types/node@20.2.5:
-    resolution: {integrity: sha512-JJulVEQXmiY9Px5axXHeYGLSjhkZEnD+MDPDGbCbIAbMslkKwmygtZFy1X6s/075Yo94sf8GuSlFfPzysQrWZQ==}
+  /@types/node@20.3.3:
+    resolution: {integrity: sha512-wheIYdr4NYML61AjC8MKj/2jrR/kDQri/CIpVoZwldwhnIrD/j9jIU5bJ8yBKuB2VhpFV7Ab6G2XkBjv9r9Zzw==}
     dev: true
 
   /@vitest/coverage-c8@0.30.1(vitest@0.31.4):
@@ -1543,7 +1547,7 @@ packages:
       convert-source-map: 1.9.0
     dev: true
 
-  /vite-node@0.31.4(@types/node@20.2.5):
+  /vite-node@0.31.4(@types/node@20.3.3):
     resolution: {integrity: sha512-uzL377GjJtTbuc5KQxVbDu2xfU/x0wVjUtXQR2ihS21q/NK6ROr4oG0rsSkBBddZUVCwzfx22in76/0ZZHXgkQ==}
     engines: {node: '>=v14.18.0'}
     hasBin: true
@@ -1553,7 +1557,7 @@ packages:
       mlly: 1.2.0
       pathe: 1.1.0
       picocolors: 1.0.0
-      vite: 4.3.9(@types/node@20.2.5)
+      vite: 4.3.9(@types/node@20.3.3)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -1564,7 +1568,7 @@ packages:
       - terser
     dev: true
 
-  /vite@4.0.4(@types/node@20.2.5):
+  /vite@4.0.4(@types/node@20.3.3):
     resolution: {integrity: sha512-xevPU7M8FU0i/80DMR+YhgrzR5KS2ORy1B4xcX/cXLsvnUWvfHuqMmVU6N0YiJ4JWGRJJsLCgjEzKjG9/GKoSw==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
@@ -1589,7 +1593,7 @@ packages:
       terser:
         optional: true
     dependencies:
-      '@types/node': 20.2.5
+      '@types/node': 20.3.3
       esbuild: 0.16.17
       postcss: 8.4.23
       resolve: 1.22.2
@@ -1598,7 +1602,7 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vite@4.3.9(@types/node@20.2.5):
+  /vite@4.3.9(@types/node@20.3.3):
     resolution: {integrity: sha512-qsTNZjO9NoJNW7KnOrgYwczm0WctJ8m/yqYAMAK9Lxt4SoySUfS5S8ia9K7JHpa3KEeMfyF8LoJ3c5NeBJy6pg==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
@@ -1623,7 +1627,7 @@ packages:
       terser:
         optional: true
     dependencies:
-      '@types/node': 20.2.5
+      '@types/node': 20.3.3
       esbuild: 0.17.19
       postcss: 8.4.23
       rollup: 3.23.0
@@ -1664,7 +1668,7 @@ packages:
     dependencies:
       '@types/chai': 4.3.5
       '@types/chai-subset': 1.3.3
-      '@types/node': 20.2.5
+      '@types/node': 20.3.3
       '@vitest/expect': 0.31.4
       '@vitest/runner': 0.31.4
       '@vitest/snapshot': 0.31.4
@@ -1685,8 +1689,8 @@ packages:
       strip-literal: 1.0.1
       tinybench: 2.5.0
       tinypool: 0.5.0
-      vite: 4.0.4(@types/node@20.2.5)
-      vite-node: 0.31.4(@types/node@20.2.5)
+      vite: 4.0.4(@types/node@20.3.3)
+      vite-node: 0.31.4(@types/node@20.3.3)
       why-is-node-running: 2.2.2
     transitivePeerDependencies:
       - less
