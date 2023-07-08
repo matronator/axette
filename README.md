@@ -2,11 +2,13 @@
 
 ![npm](https://img.shields.io/npm/v/axette)
 ![GitHub Repo stars](https://img.shields.io/github/stars/matronator/axette)
-![Snyk Vulnerabilities for npm package version](https://img.shields.io/snyk/vulnerabilities/npm/axette)
+![Dependents (via libraries.io)](https://img.shields.io/librariesio/dependents/npm/axette)
 [![CodeFactor](https://www.codefactor.io/repository/github/matronator/axette/badge)](https://www.codefactor.io/repository/github/matronator/axette)
-![npm](https://img.shields.io/npm/dw/axette)
+![Libraries.io SourceRank](https://img.shields.io/librariesio/sourcerank/npm/axette)
+![npm](https://img.shields.io/npm/dm/axette)
 ![NPM](https://img.shields.io/npm/l/axette)
 ![npm TypeScript version](https://img.shields.io/npm/dependency-version/axette/dev/typescript)
+![GitHub Sponsors](https://img.shields.io/github/sponsors/matronator)
 [![Buy us a tree](https://img.shields.io/badge/Treeware-%F0%9F%8C%B3-lightgreen)](https://plant.treeware.earth/matronator/axette)
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/U7U2MDBC)
