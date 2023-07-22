@@ -10,6 +10,7 @@
       "import": "./dist/axette.mjs"
     }
   },
+  "types": "./dist/axette.d.ts",
   "scripts": {
     "dev": "vite --host",
     "build": "tsc && vite build && dts-bundle-generator --config ./dts-bundle-generator.config.ts",
