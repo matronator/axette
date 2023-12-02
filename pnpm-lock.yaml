@@ -12,8 +12,8 @@ devDependencies:
     specifier: ^0.33.0
     version: 0.33.0(vitest@0.34.6)
   dts-bundle-generator:
-    specifier: ^8.0.1
-    version: 8.1.2
+    specifier: ^9.0.0
+    version: 9.0.0
   jsdom:
     specifier: ^23.0.1
     version: 23.0.1
@@ -854,8 +854,8 @@ packages:
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     dev: true
 
-  /dts-bundle-generator@8.1.2:
-    resolution: {integrity: sha512-/yvy9Xw0cfFodA8n6jEq8/COZ/WXgJtPabnLBAzIfP/TfxWbD/0a0dvfqNHneNqswQrH0kUcaAfGJC9UNvH97w==}
+  /dts-bundle-generator@9.0.0:
+    resolution: {integrity: sha512-4XPDOb+F1fkPrvqFL4hnNW2Edc3uiFxQDsK8gUMP8/45+QkA+dSOH0ZWZCKXEjA3ITVbPGV1li8oP8JE4Z/Y0g==}
     engines: {node: '>=14.0.0'}
     hasBin: true
     dependencies:
