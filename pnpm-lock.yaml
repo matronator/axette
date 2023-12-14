@@ -19,7 +19,7 @@ devDependencies:
     version: 23.0.1
   typescript:
     specifier: ^5.0.4
-    version: 5.2.2
+    version: 5.3.2
   vite:
     specifier: ^5.0.4
     version: 5.0.4(@types/node@20.10.2)
@@ -859,7 +859,7 @@ packages:
     engines: {node: '>=14.0.0'}
     hasBin: true
     dependencies:
-      typescript: 5.2.2
+      typescript: 5.3.2
       yargs: 17.7.1
     dev: true
 
@@ -1479,8 +1479,8 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
-  /typescript@5.2.2:
-    resolution: {integrity: sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==}
+  /typescript@5.3.2:
+    resolution: {integrity: sha512-6l+RyNy7oAHDfxC4FzSJcz9vnjTKxrLpDG5M2Vu4SHRVNg6xzqZp6LYSR9zjqQTu8DU/f5xwxUdADOkbrIX2gQ==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: true
