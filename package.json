@@ -20,7 +20,7 @@
   "devDependencies": {
     "@types/node": "^20.2.5",
     "@vitest/coverage-c8": "^0.33.0",
-    "dts-bundle-generator": "^8.0.1",
+    "dts-bundle-generator": "^9.0.0",
     "jsdom": "^23.0.1",
     "typescript": "^5.0.4",
     "vite": "^5.0.4",
