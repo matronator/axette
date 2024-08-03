@@ -9,11 +9,11 @@ importers:
   .:
     devDependencies:
       '@types/node':
-        specifier: ^20.2.5
-        version: 20.14.9
+        specifier: ^22.0.2
+        version: 22.0.2
       '@vitest/coverage-c8':
         specifier: ^0.33.0
-        version: 0.33.0(vitest@2.0.2(@types/node@20.14.9)(jsdom@24.1.0))
+        version: 0.33.0(vitest@2.0.2(@types/node@22.0.2)(jsdom@24.1.0))
       dts-bundle-generator:
         specifier: ^9.0.0
         version: 9.5.1
@@ -28,7 +28,7 @@ importers:
         version: 5.3.5(@types/node@20.14.9)
       vitest:
         specifier: ^2.0.0
-        version: 2.0.2(@types/node@20.14.9)(jsdom@24.1.0)
+        version: 2.0.2(@types/node@22.0.2)(jsdom@24.1.0)
 
 packages:
 
@@ -303,8 +303,8 @@ packages:
   '@types/istanbul-lib-coverage@2.0.4':
     resolution: {integrity: sha512-z/QT1XN4K4KYuslS23k62yDIDLwLFkzxOuMplDtObz0+y7VqJCaO2o+SPwHCvLFZh7xazvvoor2tA/hPz9ee7g==}
 
-  '@types/node@20.14.9':
-    resolution: {integrity: sha512-06OCtnTXtWOZBJlRApleWndH4JsRVs1pDCc8dLSQp+7PpUpX3ePdHyeNSFTeSe7FtKyQkrlPvHwJOW3SLd8Oyg==}
+  '@types/node@22.0.2':
+    resolution: {integrity: sha512-yPL6DyFwY5PiMVEwymNeqUTKsDczQBJ/5T7W/46RwLU/VH+AA8aT5TZkvBviLKLbbm0hlfftEkGrNzfRk/fofQ==}
 
   '@vitest/coverage-c8@0.33.0':
     resolution: {integrity: sha512-DaF1zJz4dcOZS4k/neiQJokmOWqsGXwhthfmUdPGorXIQHjdPvV6JQSYhQDI41MyI8c+IieQUdIDs5XAMHtDDw==}
@@ -797,8 +797,8 @@ packages:
     engines: {node: '>=14.17'}
     hasBin: true
 
-  undici-types@5.26.5:
-    resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
+  undici-types@6.11.1:
+    resolution: {integrity: sha512-mIDEX2ek50x0OlRgxryxsenE5XaQD4on5U2inY7RApK3SOJpofyw7uW2AyfMKkhAxXIceo2DeWGVGwyvng1GNQ==}
 
   universalify@0.2.0:
     resolution: {integrity: sha512-CJ1QgKmNg3CwvAv/kOFmtnEN05f0D/cn9QntgNOQlQF9dgvVTHj3t+8JPdjqawCHk7V/KA+fbUqzZ9XWhcqPUg==}
@@ -1118,18 +1118,18 @@ snapshots:
 
   '@types/istanbul-lib-coverage@2.0.4': {}
 
-  '@types/node@20.14.9':
+  '@types/node@22.0.2':
     dependencies:
-      undici-types: 5.26.5
+      undici-types: 6.11.1
 
-  '@vitest/coverage-c8@0.33.0(vitest@2.0.2(@types/node@20.14.9)(jsdom@24.1.0))':
+  '@vitest/coverage-c8@0.33.0(vitest@2.0.2(@types/node@22.0.2)(jsdom@24.1.0))':
     dependencies:
       '@ampproject/remapping': 2.2.1
       c8: 7.14.0
       magic-string: 0.30.2
       picocolors: 1.0.0
       std-env: 3.3.3
-      vitest: 2.0.2(@types/node@20.14.9)(jsdom@24.1.0)
+      vitest: 2.0.2(@types/node@22.0.2)(jsdom@24.1.0)
 
   '@vitest/expect@2.0.2':
     dependencies:
@@ -1641,7 +1641,7 @@ snapshots:
 
   typescript@5.5.3: {}
 
-  undici-types@5.26.5: {}
+  undici-types@6.11.1: {}
 
   universalify@0.2.0: {}
 
@@ -1656,7 +1656,7 @@ snapshots:
       '@types/istanbul-lib-coverage': 2.0.4
       convert-source-map: 1.9.0
 
-  vite-node@2.0.2(@types/node@20.14.9):
+  vite-node@2.0.2(@types/node@22.0.2):
     dependencies:
       cac: 6.7.14
       debug: 4.3.5
@@ -1679,10 +1679,10 @@ snapshots:
       postcss: 8.4.40
       rollup: 4.17.2
     optionalDependencies:
-      '@types/node': 20.14.9
+      '@types/node': 22.0.2
       fsevents: 2.3.3
 
-  vitest@2.0.2(@types/node@20.14.9)(jsdom@24.1.0):
+  vitest@2.0.2(@types/node@22.0.2)(jsdom@24.1.0):
     dependencies:
       '@ampproject/remapping': 2.3.0
       '@vitest/expect': 2.0.2
@@ -1704,7 +1704,7 @@ snapshots:
       vite-node: 2.0.2(@types/node@20.14.9)
       why-is-node-running: 2.2.2
     optionalDependencies:
-      '@types/node': 20.14.9
+      '@types/node': 22.0.2
       jsdom: 24.1.0
     transitivePeerDependencies:
       - less
