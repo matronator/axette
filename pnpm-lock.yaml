@@ -22,7 +22,7 @@ importers:
         version: 25.0.0
       typescript:
         specifier: ^5.0.4
-        version: 5.5.4
+        version: 5.6.2
       vite:
         specifier: ^5.0.4
         version: 5.4.2(@types/node@22.5.2)
@@ -758,8 +758,8 @@ packages:
     resolution: {integrity: sha512-tk2G5R2KRwBd+ZN0zaEXpmzdKyOYksXwywulIX95MBODjSzMIuQnQ3m8JxgbhnL1LeVo7lqQKsYa1O3Htl7K5g==}
     engines: {node: '>=18'}
 
-  typescript@5.5.4:
-    resolution: {integrity: sha512-Mtq29sKDAEYP7aljRgtPOpTvOfbwRWlS6dPRzwjdE+C0R4brX/GUyhHSecbHMFLNBLcJIPt9nl9yG5TZ1weH+Q==}
+  typescript@5.6.2:
+    resolution: {integrity: sha512-NW8ByodCSNCwZeghjN3o+JX5OFH0Ojg6sadjEKY4huZ52TqbJTJnDo5+Tw98lSy63NZvi4n+ez5m2u5d4PkZyw==}
     engines: {node: '>=14.17'}
     hasBin: true
 
@@ -1236,7 +1236,7 @@ snapshots:
 
   dts-bundle-generator@9.5.1:
     dependencies:
-      typescript: 5.5.4
+      typescript: 5.6.2
       yargs: 17.7.1
 
   emoji-regex@8.0.0: {}
@@ -1572,7 +1572,7 @@ snapshots:
     dependencies:
       punycode: 2.3.1
 
-  typescript@5.5.4: {}
+  typescript@5.6.2: {}
 
   undici-types@6.19.8: {}
 
