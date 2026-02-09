@@ -21,7 +21,7 @@
     "@types/node": "^25.0.8",
     "@vitest/coverage-c8": "^0.33.0",
     "dts-bundle-generator": "^9.0.0",
-    "jsdom": "^27.0.0",
+    "jsdom": "^28.0.0",
     "typescript": "^5.0.4",
     "vite": "^7.0.0",
     "vitest": "^4.0.0"
