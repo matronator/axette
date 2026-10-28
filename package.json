@@ -18,11 +18,11 @@
     "test:coverage": "vitest run --coverage"
   },
   "devDependencies": {
-    "@types/node": "^25.0.8",
+    "@types/node": "^26.0.0",
     "@vitest/coverage-c8": "^0.33.0",
     "dts-bundle-generator": "^9.0.0",
-    "jsdom": "^29.0.0",
-    "typescript": "^6.0.0",
+    "jsdom": "^30.0.0",
+    "typescript": "^7.0.0",
     "vite": "^8.0.0",
     "vitest": "^4.0.0"
   },
